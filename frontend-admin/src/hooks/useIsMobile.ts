@@ -1,23 +1,23 @@
-import * as React from "react";
+import { useState, useEffect } from "react";
 
 const MOBILE_BREAKPOINT = 768;
 
 export function useIsMobile() {
-  const [isMobile, setIsMobile] = React.useState<boolean>(false);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
 
-  React.useEffect(() => {
-    const checkIsMobile = () => {
+  useEffect(() => {
+    const checkMobile = () => {
       setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
     };
 
     // Initial check
-    checkIsMobile();
+    checkMobile();
 
-    // Listen for resize
-    window.addEventListener("resize", checkIsMobile);
+    // Listen to window resize
+    window.addEventListener("resize", checkMobile);
 
     return () => {
-      window.removeEventListener("resize", checkIsMobile);
+      window.removeEventListener("resize", checkMobile);
     };
   }, []);
 
