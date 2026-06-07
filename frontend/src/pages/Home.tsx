@@ -89,33 +89,33 @@ function HeroSlider() {
   );
 }
 
-function Countdown() {
-  const [t, setT] = useState({ h: 0, m: 0, s: 0 });
+// function Countdown() {
+//   const [t, setT] = useState({ h: 0, m: 0, s: 0 });
 
-  useEffect(() => {
-    const end = new Date();
-    end.setHours(23, 59, 59, 0);
-    const id = setInterval(() => {
-      const diff = +end - +new Date();
-      const h = Math.max(0, Math.floor(diff / 3.6e6));
-      const m = Math.max(0, Math.floor((diff / 6e4) % 60));
-      const s = Math.max(0, Math.floor((diff / 1000) % 60));
-      setT({ h, m, s });
-    }, 1000);
-    return () => clearInterval(id);
-  }, []);
+//   useEffect(() => {
+//     const end = new Date();
+//     end.setHours(23, 59, 59, 0);
+//     const id = setInterval(() => {
+//       const diff = +end - +new Date();
+//       const h = Math.max(0, Math.floor(diff / 3.6e6));
+//       const m = Math.max(0, Math.floor((diff / 6e4) % 60));
+//       const s = Math.max(0, Math.floor((diff / 1000) % 60));
+//       setT({ h, m, s });
+//     }, 1000);
+//     return () => clearInterval(id);
+//   }, []);
 
-  const box = (v: number, l: string) => (
-    <div className="text-center">
-      <div className="bg-white border border-amber-300 rounded-2xl px-4 py-3 font-display text-2xl text-zinc-900 tabular-nums shadow-sm">
-        {String(v).padStart(2, "0")}
-      </div>
-      <div className="text-[10px] uppercase tracking-widest text-zinc-500 mt-1.5">{l}</div>
-    </div>
-  );
+//   const box = (v: number, l: string) => (
+//     <div className="text-center">
+//       <div className="bg-white border border-amber-300 rounded-2xl px-4 py-3 font-display text-2xl text-zinc-900 tabular-nums shadow-sm">
+//         {String(v).padStart(2, "0")}
+//       </div>
+//       <div className="text-[10px] uppercase tracking-widest text-zinc-500 mt-1.5">{l}</div>
+//     </div>
+//   );
 
-  return <div className="flex gap-3 justify-center">{box(t.h, "Hours")}{box(t.m, "Min")}{box(t.s, "Sec")}</div>;
-}
+//   return <div className="flex gap-3 justify-center">{box(t.h, "Hours")}{box(t.m, "Min")}{box(t.s, "Sec")}</div>;
+// }
 
 const TOYS = Object.values(
   import.meta.glob("@/assets/HomeToys/*.{png,jpg,jpeg}", {

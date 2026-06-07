@@ -30,38 +30,38 @@ export default function Cart() {
   };
 
   // CartProvider ke andar
-    interface ShippingDetails {
-    name: string;
-    phone: string;
-    address: string;
-    city: string;
-    state: string;
-    }
+    // interface ShippingDetails {
+    // name: string;
+    // phone: string;
+    // address: string;
+    // city: string;
+    // state: string;
+    // }
 
-    const placeOrder = async (
-    shippingDetails: ShippingDetails
-    ) => {
-      const orderData = {
-        customerName: shippingDetails.name,
-        phone: shippingDetails.phone,
-        address: shippingDetails.address,
-        city: shippingDetails.city,
-        state: shippingDetails.state,
-        items: items.map(item => ({
-          product: item.product._id,
-          quantity: item.qty,
-          price: item.product.price
-        })),
-        total: total,
-      };
+    // const placeOrder = async (
+    // shippingDetails: ShippingDetails
+    // ) => {
+    //   const orderData = {
+    //     customerName: shippingDetails.name,
+    //     phone: shippingDetails.phone,
+    //     address: shippingDetails.address,
+    //     city: shippingDetails.city,
+    //     state: shippingDetails.state,
+    //     items: items.map(item => ({
+    //       product: item.product._id,
+    //       quantity: item.qty,
+    //       price: item.product.price
+    //     })),
+    //     total: total,
+    //   };
 
-      const res = await api.post("/orders", orderData);
-      localStorage.setItem(
-        "currentOrderId",
-        res.data.order._id
-      );
-      return res.data;
-    };
+    //   const res = await api.post("/orders", orderData);
+    //   localStorage.setItem(
+    //     "currentOrderId",
+    //     res.data.order._id
+    //   );
+    //   return res.data;
+    // };
 
   if (items.length === 0) {
     return (

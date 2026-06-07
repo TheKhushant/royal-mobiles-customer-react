@@ -1,4 +1,4 @@
-import { Link, useSearchParams, useNavigate } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { useMemo, useState, useEffect } from "react";
 import { Search, X } from "lucide-react";
 import { api } from "@/lib/api";
@@ -10,7 +10,7 @@ export default function Shop() {
   const [loading, setLoading] = useState(true);
 
   const [searchParams, setSearchParams] = useSearchParams();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const categoryParam = searchParams.get("category") || undefined;
 

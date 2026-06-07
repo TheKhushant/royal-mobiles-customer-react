@@ -53,7 +53,7 @@ export default function Payment() {
         {/* QR Code */}
         <div className="bg-zinc-50 rounded-2xl p-4 mb-6 flex justify-center">
           <img
-            src="/qr-code.png"   // Updated path (recommended)
+            src="../src/assets/qr-code.png"   // Updated path (recommended)
             alt="UPI QR"
             className="w-48 h-48 sm:w-64 sm:h-64 object-contain"
           />

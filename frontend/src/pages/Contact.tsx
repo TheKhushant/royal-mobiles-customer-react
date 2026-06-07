@@ -1,4 +1,4 @@
-import { CheckCircle2 } from "lucide-react"; // Not used but kept for consistency
+// import { CheckCircle2 } from "lucide-react"; // Not used but kept for consistency
 import {
   MapPin,
   Phone,

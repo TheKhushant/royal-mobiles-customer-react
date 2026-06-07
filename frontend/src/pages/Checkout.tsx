@@ -7,7 +7,7 @@ import { CheckCircle2 } from "lucide-react";
 
 export default function Checkout() {
   const { items, total, clear } = useCart();
-  const [pay, setPay] = useState("cod");
+  // const [pay, setPay] = useState("cod");
   const [done, setDone] = useState(false);
   const [formData, setFormData] = useState({
     customerName: "",
