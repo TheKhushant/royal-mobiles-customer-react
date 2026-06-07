@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { toast } from "sonner";
 import { api } from "@/lib/api";
+import qrCode from "@/assets/qr-code.png";
 
 export default function Payment() {
   const navigate = useNavigate();
@@ -53,7 +54,7 @@ export default function Payment() {
         {/* QR Code */}
         <div className="bg-zinc-50 rounded-2xl p-4 mb-6 flex justify-center">
           <img
-            src="../src/assets/qr-code.png"   // Updated path (recommended)
+            src={qrCode}
             alt="UPI QR"
             className="w-48 h-48 sm:w-64 sm:h-64 object-contain"
           />
