@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { useEffect, useState, useMemo } from "react";
 import { AdminLayout } from "@/components/admin/AdminLayout";
 import { ConfirmDialog } from "@/components/admin/Modal";
@@ -29,7 +29,7 @@ type SortOption = "newest" | "oldest" | "highest" | "lowest" | "name";
 
 export default function ReviewsPage() {
   const { ready } = useRequireAuth();
-  const navigate = useNavigate();
+//   const navigate = useNavigate();
 
   const [reviews, setReviews] = useState<Review[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
