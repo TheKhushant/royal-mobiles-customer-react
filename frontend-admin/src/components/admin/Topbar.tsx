@@ -1,4 +1,4 @@
-import { LogOut, User, Menu } from "lucide-react";
+import { LogOut, Menu } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 
 interface TopbarProps {
