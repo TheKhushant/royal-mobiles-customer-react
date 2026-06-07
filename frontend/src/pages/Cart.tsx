@@ -3,7 +3,6 @@ import { Minus, Plus, Trash2, ArrowRight } from "lucide-react";
 import { useCart } from "@/lib/cart";
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
-import { api } from "@/lib/api";
 
 
 export default function Cart() {
