@@ -54,7 +54,12 @@ function LoadingScreen() {
           <img
             src="/logoGoldNoBG.png"          // ← CHANGE THIS to your actual logo path
             alt="Logo"
-            style={{ height: 90, width: "auto" }}
+            style={{
+              height: 90,
+              width: "auto",
+              display: "block",
+              margin: "0 auto",
+            }}
           />
         </Box>
 
