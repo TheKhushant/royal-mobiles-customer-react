@@ -52,7 +52,7 @@ export default function Checkout() {
 
       const response = await api.post("/orders", orderData);
 
-      console.log("Order Created:", response.data);
+      // console.log("Order Created:", response.data);
 
       // Save Order ID
       localStorage.setItem("currentOrderId", response.data.order._id);

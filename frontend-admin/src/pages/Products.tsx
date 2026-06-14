@@ -528,7 +528,7 @@ function ProductModal({
       const formData = new FormData();
 
       formData.append("name", form.name);
-      console.log("PRICE BEFORE SAVE =", form.price);
+      // console.log("PRICE BEFORE SAVE =", form.price);
       formData.append("price", String(form.price));
       formData.append("stock", String(form.stock));
       formData.append("originalPrice", String(form.originalPrice || 0));
@@ -544,7 +544,7 @@ function ProductModal({
             : form.category
         );
       }
-      console.log("CATEGORY =>", form.category);
+      // console.log("CATEGORY =>", form.category);
       // Combine: Existing Images + New URLs
       const combinedImages = [
         ...(form.images || []),
@@ -649,7 +649,7 @@ function ProductModal({
               className={inp}
               value={form.price}
               onChange={(e) => {
-                console.log("INPUT =", e.target.value);
+                // console.log("INPUT =", e.target.value);
 
                 setForm(prev => ({
                   ...prev,
@@ -718,7 +718,7 @@ function ProductModal({
                   description: text,
                 }));
               } catch (err) {
-                console.log("Clipboard access denied");
+                console.log("Clipboard access denied, Product.tsx ADMIN");
               }
             }}
           />
