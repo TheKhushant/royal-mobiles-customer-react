@@ -192,6 +192,22 @@ export default function Dashboard() {
     }
   });
 
+  const todayRevenue = groupedOrders.today.reduce(
+    (sum, order) => sum + (order.total || 0),
+    0
+  );
+
+  const yesterdayRevenue = groupedOrders.yesterday.reduce(
+    (sum, order) => sum + (order.total || 0),
+    0
+  );
+
+  const olderRevenue = groupedOrders.older.reduce(
+    (sum, order) => sum + (order.total || 0),
+    0
+  );
+
+
   return (
     <AdminLayout>
       <div className="mb-6">
@@ -294,25 +310,39 @@ export default function Dashboard() {
                 (section) =>
                   section.data.length > 0 && (
                     <div key={section.title}>
-                      <div className="px-4 py-2 bg-muted font-semibold text-xs uppercase">
-                        {section.title}
-                      </div>
+                      <div className="px-4 py-2 bg-[#1F2937] text-white font-bold text-xs uppercase tracking-wider sticky top-0 z-10 flex justify-between items-center">
+                      <span>{section.title}</span>
 
-                      <div className="divide-y divide-border">
-                        {section.data.map((order) => (
-                <div
-                  key={order._id}
-                  onClick={() => setSelectedOrder(order)}
-                  className={`p-2 sm:p-4 cursor-pointer transition-colors
-                    ${
-                      order.status === "Confirmed"
-                      ? "bg-green-500/10 border-l-4 border-green-500 hover:bg-green-500/20"
-                      : order.status === "Cancelled"
-                      ? "bg-[#9F1239]/10 border-l-4 border-[#9F1239] hover:bg-[#9F1239]/20"
-                      : "bg-yellow-500/10 border-l-4 border-yellow-500 hover:bg-yellow-500/20"
-                    }
-                  `}
-                >
+                      <span className="bg-white/20 px-2 py-1 rounded-full text-xs">
+                        {section.data.length}
+                      </span>
+
+                      <span className="bg-white/20 px-2 py-1 rounded-full text-xs">
+                        ₹
+                        {section.title === "Today"
+                          ? todayRevenue.toLocaleString("en-IN")
+                          : section.title === "Yesterday"
+                          ? yesterdayRevenue.toLocaleString("en-IN")
+                          : olderRevenue.toLocaleString("en-IN")}
+                      </span>
+                      
+                    </div>
+
+                    <div className="divide-y divide-border">
+                      {section.data.map((order) => (
+                    <div
+                      key={order._id}
+                      onClick={() => setSelectedOrder(order)}
+                      className={`p-2 sm:p-4 cursor-pointer transition-colors
+                        ${
+                          order.status === "Confirmed"
+                          ? "bg-green-500/10 border-l-4 border-green-500 hover:bg-green-500/20"
+                          : order.status === "Cancelled"
+                          ? "bg-[#9F1239]/10 border-l-4 border-[#9F1239] hover:bg-[#9F1239]/20"
+                          : "bg-yellow-500/10 border-l-4 border-yellow-500 hover:bg-yellow-500/20"
+                        }
+                      `}
+                    >
                   <div className="flex items-center gap-2">
                     
                     {/* Left */}
