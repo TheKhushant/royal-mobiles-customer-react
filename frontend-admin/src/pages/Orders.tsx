@@ -7,7 +7,14 @@ import toast from "react-hot-toast";
 import { Search, Download, Eye} from "lucide-react";
 
 interface OrderItem {
-  product?: { name: string; _id?: string };
+  product?: {
+    _id?: string;
+    name: string;
+    images?: {
+      url: string;
+      publicId?: string;
+    }[];
+  };
   quantity?: number;
   price?: number;
 }
@@ -267,9 +274,26 @@ export default function OrdersPage() {
                       className="border rounded-lg p-3 flex justify-between"
                     >
                       <div>
-                        <p className="font-medium">
-                          {item.product?.name}
-                        </p>
+                        <div className="flex items-center gap-3">
+                          <img
+                            src={
+                              item.product?.images?.[0]?.url ||
+                              "/placeholder.jpg"
+                            }
+                            alt={item.product?.name}
+                            className="w-16 h-16 rounded-lg object-cover border"
+                          />
+
+                          <div>
+                            <p className="font-medium">
+                              {item.product?.name}
+                            </p>
+
+                            <p className="text-sm text-muted-foreground">
+                              Qty: {item.quantity}
+                            </p>
+                          </div>
+                        </div>
 
                         <p className="text-sm text-muted-foreground">
                           Qty: {item.quantity}
