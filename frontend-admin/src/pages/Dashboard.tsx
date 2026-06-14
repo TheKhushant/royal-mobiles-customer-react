@@ -336,7 +336,7 @@ export default function Dashboard() {
                               </span>
 
                               {product.extra > 0 && (
-                                <span className="px-2 py-0.5 rounded-full bg-[#D4AF37]/10 text-[#D4AF37] text-[10px]">
+                                <span className="px-2 py-0.5 rounded-full bg-[#D4AF37]/10 text-blue-500 text-[10px] border border-red-200">
                                   +{product.extra}
                                 </span>
                               )}

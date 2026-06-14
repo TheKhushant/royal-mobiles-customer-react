@@ -184,7 +184,7 @@ export default function Cart() {
             <input
               value={coupon}
               onChange={(e) => setCoupon(e.target.value)}
-              placeholder="ROYAL10"
+              placeholder="99ROYAL"
               className="flex-1 bg-zinc-50 border border-zinc-200 rounded-xl sm:rounded-2xl px-3 sm:px-5 py-2 sm:py-3 text-xs sm:text-sm focus:outline-none"
             />
 
