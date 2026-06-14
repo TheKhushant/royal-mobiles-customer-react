@@ -37,6 +37,8 @@ export default function OrdersPage() {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
 
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+
   const fetchOrders = async () => {
     setLoading(true);
     try {
@@ -174,7 +176,7 @@ export default function OrdersPage() {
                     </td>
                     <td className="p-4">
                       <button
-                        onClick={() => toast("ℹ️ Order details for #" + order._id + " - Modal coming soon")}
+                        onClick={() => setSelectedOrder(order)}
                         className="p-2 hover:bg-muted rounded-lg"
                       >
                         <Eye className="w-4 h-4" />
@@ -187,6 +189,105 @@ export default function OrdersPage() {
           </div>
         )}
       </div>
+      {selectedOrder && (
+        <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+
+            {/* Header */}
+            <div className="flex items-center justify-between p-4 border-b">
+              <h2 className="text-lg font-semibold">
+                Order Details
+              </h2>
+
+              <button
+                onClick={() => setSelectedOrder(null)}
+                className="text-xl"
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Body */}
+            <div className="p-5 space-y-4">
+
+              <div>
+                <h3 className="font-semibold mb-2">Customer Information</h3>
+
+                <p><strong>Name:</strong> {selectedOrder.customerName}</p>
+                <p><strong>Email:</strong> {selectedOrder.email}</p>
+                <p><strong>Phone:</strong> {selectedOrder.phone || "N/A"}</p>
+              </div>
+
+              <div>
+                <h3 className="font-semibold mb-2">Address</h3>
+
+                <p>{selectedOrder.address}</p>
+                <p>
+                  {selectedOrder.city}, {selectedOrder.state}
+                </p>
+                <p>{selectedOrder.pincode}</p>
+              </div>
+
+              <div>
+                <h3 className="font-semibold mb-2">Order Information</h3>
+
+                <p>
+                  <strong>Order ID:</strong> {selectedOrder._id}
+                </p>
+
+                <p>
+                  <strong>Status:</strong> {selectedOrder.status}
+                </p>
+
+                <p>
+                  <strong>Payment:</strong>{" "}
+                  {selectedOrder.paymentStatus || "N/A"}
+                </p>
+
+                <p>
+                  <strong>Total:</strong> ₹
+                  {selectedOrder.total.toLocaleString("en-IN")}
+                </p>
+
+                <p>
+                  <strong>Date:</strong>{" "}
+                  {new Date(selectedOrder.createdAt).toLocaleString("en-IN")}
+                </p>
+              </div>
+
+              <div>
+                <h3 className="font-semibold mb-2">
+                  Products ({selectedOrder.items.length})
+                </h3>
+
+                <div className="space-y-2">
+                  {selectedOrder.items.map((item, index) => (
+                    <div
+                      key={index}
+                      className="border rounded-lg p-3 flex justify-between"
+                    >
+                      <div>
+                        <p className="font-medium">
+                          {item.product?.name}
+                        </p>
+
+                        <p className="text-sm text-muted-foreground">
+                          Qty: {item.quantity}
+                        </p>
+                      </div>
+
+                      <div className="font-semibold">
+                        ₹{item.price}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      )}
     </AdminLayout>
   );
 }
