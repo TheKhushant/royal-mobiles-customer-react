@@ -382,7 +382,7 @@ export default function Home() {
           ) : trending.length === 0 ? (
             <div className="col-span-full py-12 text-center text-zinc-500">No trending products available</div>
           ) : (
-            trending.map((p: any) => <ProductCard key={p._id} product={p} />)
+            trending.slice(0, 9).map((p: any) => <ProductCard key={p._id} product={p} />)
           )}
         </div>
       </section>

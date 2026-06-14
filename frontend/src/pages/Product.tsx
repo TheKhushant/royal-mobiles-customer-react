@@ -240,7 +240,7 @@ export default function Product() {
           <button
             onClick={() => {
               add(p, qty);
-              toast.success(`${p.name} added to cart`);
+              toast.success(`added to cart`);
             }}
             disabled={p.stock === 0}
             className="w-full border border-zinc-300 hover:border-zinc-400 font-medium text-xs sm:text-base py-2 sm:py-4 rounded-xl sm:rounded-2xl flex items-center justify-center gap-2 transition-all disabled:opacity-50"

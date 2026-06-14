@@ -109,7 +109,7 @@ export default function ProductCard({ product }: { product: Product }) {
         <button
           onClick={() => {
             add(product);
-            toast.success(`${product.name} added to cart`);
+            toast.success(`added to cart`);
           }}
           className="mt-1.5 sm:mt-5 w-full bg-rose-600 hover:bg-rose-700 text-white text-[8px] sm:text-sm font-medium py-1 sm:py-3 rounded-md sm:rounded-2xl flex items-center justify-center gap-1"
         >

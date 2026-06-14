@@ -94,9 +94,10 @@ export default function Dashboard() {
 
       let orders = Array.isArray(res.data) ? res.data : res.data?.orders || [];
 
-      orders = orders
-        .sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-        .slice(0, 5);
+      orders = orders.sort(
+          (a: any, b: any) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
 
       if (orders.length > lastCount) {
         toast.success(`${orders.length - lastCount} new order received 🎉`);
@@ -140,9 +141,10 @@ export default function Dashboard() {
 
         let orders = Array.isArray(oRes.data) ? oRes.data : oRes.data?.orders || [];
 
-        orders = orders
-          .sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-          .slice(0, 5);
+        orders = orders.sort(
+            (a: any, b: any) =>
+              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          );
 
         setStats({
           products: products.length,
@@ -164,6 +166,31 @@ export default function Dashboard() {
   }, [isAuthenticated]);
 
   if (loading || !isAuthenticated) return null;
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const yesterday = new Date(today);
+  yesterday.setDate(yesterday.getDate() - 1);
+
+  const groupedOrders = {
+    today: [] as typeof recentOrders,
+    yesterday: [] as typeof recentOrders,
+    older: [] as typeof recentOrders,
+  };
+
+  recentOrders.forEach((order) => {
+    const orderDate = new Date(order.createdAt);
+    orderDate.setHours(0, 0, 0, 0);
+
+    if (orderDate.getTime() === today.getTime()) {
+      groupedOrders.today.push(order);
+    } else if (orderDate.getTime() === yesterday.getTime()) {
+      groupedOrders.yesterday.push(order);
+    } else {
+      groupedOrders.older.push(order);
+    }
+  });
 
   return (
     <AdminLayout>
@@ -248,7 +275,7 @@ export default function Dashboard() {
           </Link>
         </div>
 
-        <div className="bg-white border border-[#E5E0D8] rounded-2xl overflow-hidden shadow-sm">
+        <div className="bg-white border border-[#E5E0D8] rounded-2xl shadow-sm max-h-[700px] overflow-y-auto">
           {loadingStats ? (
             <div className="py-4 text-center text-xs text-muted-foreground">
               Loading...
@@ -258,8 +285,21 @@ export default function Dashboard() {
               No orders
             </div>
           ) : (
-            <div className="divide-y divide-border">
-              {recentOrders.map((order) => (
+            <div>
+              {[
+                { title: "Today", data: groupedOrders.today },
+                { title: "Yesterday", data: groupedOrders.yesterday },
+                { title: "Older", data: groupedOrders.older },
+              ].map(
+                (section) =>
+                  section.data.length > 0 && (
+                    <div key={section.title}>
+                      <div className="px-4 py-2 bg-muted font-semibold text-xs uppercase">
+                        {section.title}
+                      </div>
+
+                      <div className="divide-y divide-border">
+                        {section.data.map((order) => (
                 <div
                   key={order._id}
                   onClick={() => setSelectedOrder(order)}
@@ -324,8 +364,12 @@ export default function Dashboard() {
 
                   </div>
                 </div>
-              ))}
-            </div>
+                  ))}
+                </div>
+              </div>
+            )
+          )}
+        </div>
           )}
         </div>
       </div>
