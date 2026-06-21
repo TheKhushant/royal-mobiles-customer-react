@@ -7,7 +7,7 @@ export default function Payment() {
   const navigate = useNavigate();
   const [status, setStatus] = useState("Pending");
   const [loading, setLoading] = useState(false);
-  const [setOrder] = useState<any>(null);
+  const [order, setOrder] = useState<any>(null);
 
   // Fetch order details
   useEffect(() => {
