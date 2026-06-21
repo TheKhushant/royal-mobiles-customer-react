@@ -52,7 +52,8 @@ const getImageUrl = (img?: ProductImage | string | null) => {
 
 export default function ProductsPage() {
   const { ready } = useRequireAuth();
-  const [items, setItems] = useState<Product[]>([]);
+
+  const [allProducts, setAllProducts] = useState<Product[]>([]);
   const [cats, setCats] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
@@ -61,9 +62,7 @@ export default function ProductsPage() {
   const [stockFilter, setStockFilter] = useState("");
   const [page, setPage] = useState(1);
 //   const perPage = 10;
-  const [totalPages, setTotalPages] = useState(1);
-  const [totalProducts, setTotalProducts] = useState(0);
-
+  
   const [showSearch, setShowSearch] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
 
@@ -73,24 +72,22 @@ export default function ProductsPage() {
 
   const load = async () => {
     setLoading(true);
+
     try {
       const [p, c] = await Promise.all([
-        api.get(`/products?page=${page}&limit=10`),
-        api.get("/categories")
+        api.get("/products?page=1&limit=100"),
+        api.get("/categories"),
       ]);
 
-      setItems(p.data.products || []);
-      setTotalPages(p.data.pages || 1);
-      setTotalProducts(p.data.total || 0);
+      const products = p.data.products || [];
 
+      setAllProducts(products);
+      
       setCats(
         Array.isArray(c.data)
           ? c.data
           : c.data?.categories || c.data?.data || []
       );
-    } catch (err) {
-      console.error(err);
-      toast.error("Failed to load products");
     } finally {
       setLoading(false);
     }
@@ -98,25 +95,57 @@ export default function ProductsPage() {
 
   useEffect(() => {
     if (ready) load();
-  }, [ready, page]);
+  }, [ready]);
 
   const filtered = useMemo(() => {
-    return items.filter((p) => {
-      if (search && !p.name?.toLowerCase().includes(search.toLowerCase())) return false;
+    return allProducts.filter((p) => {
+      if (search && !p.name?.toLowerCase().includes(search.toLowerCase()))
+        return false;
+
       if (catFilter) {
-        const cid = typeof p.category === "object" ? p.category?._id || p.category?.id : p.category;
+        const cid =
+          typeof p.category === "object"
+            ? p.category?._id || p.category?.id
+            : p.category;
+
         if (cid !== catFilter) return false;
       }
-      if (flashFilter === "yes" && !(p.flashSale || p.isFlashSale)) return false;
-      if (flashFilter === "no" && (p.flashSale || p.isFlashSale)) return false;
-      if (stockFilter === "out" && (p.stock ?? 0) > 0) return false;
-      if (stockFilter === "low" && ((p.stock ?? 0) === 0 || (p.stock ?? 0) >= 5)) return false;
-      if (stockFilter === "in" && (p.stock ?? 0) < 5) return false;
+
+      if (flashFilter === "yes" && !(p.flashSale || p.isFlashSale))
+        return false;
+
+      if (flashFilter === "no" && (p.flashSale || p.isFlashSale))
+        return false;
+
+      if (stockFilter === "out" && (p.stock ?? 0) > 0)
+        return false;
+
+      if (
+        stockFilter === "low" &&
+        ((p.stock ?? 0) === 0 || (p.stock ?? 0) >= 5)
+      )
+        return false;
+
+      if (stockFilter === "in" && (p.stock ?? 0) < 5)
+        return false;
+
       return true;
     });
-  }, [items, search, catFilter, flashFilter, stockFilter]);
+  }, [allProducts, search, catFilter, flashFilter, stockFilter]);
 
-  const pageItems = filtered;
+  // ✅ ADD THIS HERE
+  const totalProducts = filtered.length;
+
+  const perPage = 10;
+
+  const totalPages = Math.ceil(filtered.length / perPage);
+
+  const pageItems = search
+    ? filtered.slice(0, perPage)
+    : filtered.slice(
+        (page - 1) * perPage,
+        page * perPage
+      );
 
   const handleDelete = async (id: string) => {
     try {
