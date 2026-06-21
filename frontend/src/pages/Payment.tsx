@@ -1,38 +1,55 @@
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { api } from "@/lib/api";
-import qrCode from "@/assets/qr-code.png";
 
 export default function Payment() {
   const navigate = useNavigate();
-
   const [status, setStatus] = useState("Pending");
   const [loading, setLoading] = useState(false);
+  const [order, setOrder] = useState<any>(null);
+
+  // Fetch order details
+  useEffect(() => {
+    const fetchOrder = async () => {
+      const orderId = localStorage.getItem("currentOrderId");
+      if (!orderId) return;
+
+      try {
+        const res = await api.get(`/orders/${orderId}`);
+        setOrder(res.data.order);
+        setStatus(res.data.order.status);
+      } catch (err) {
+        console.error(err);
+        toast.error("Order details not found");
+      }
+    };
+
+    fetchOrder();
+  }, []);
 
   const checkPayment = async () => {
     try {
       setLoading(true);
-
       const orderId = localStorage.getItem("currentOrderId");
-
       if (!orderId) {
         toast.error("Order not found");
         return;
       }
 
       const res = await api.get(`/orders/${orderId}`);
-      const order = res.data.order;
+      const updatedOrder = res.data.order;
 
-      setStatus(order.status);
+      setOrder(updatedOrder);
+      setStatus(updatedOrder.status);
 
-      if (order.status === "Confirmed") {
+      if (updatedOrder.status === "Confirmed") {
         toast.success("Payment approved!");
         navigate("/order-confirmed");
         return;
       }
 
-      if (order.status === "Cancelled") {
+      if (updatedOrder.status === "Cancelled") {
         toast.error("Payment rejected. Please contact support.");
         return;
       }
@@ -48,50 +65,45 @@ export default function Payment() {
 
   return (
     <section className="max-w-xl mx-auto px-4 py-10">
-      <div className="royal-border bg-white rounded-3xl p-6 sm:p-8 text-center">
-        <h1 className="font-display text-2xl sm:text-4xl mb-6">Complete Payment</h1>
-
-        {/* QR Code */}
-        <div className="bg-zinc-50 rounded-2xl p-4 mb-6 flex justify-center">
-          <img
-            src={qrCode}
-            alt="UPI QR"
-            className="w-48 h-48 sm:w-64 sm:h-64 object-contain"
-          />
-        </div>
-
-        {/* UPI Info */}
-        <div className="space-y-3 text-sm sm:text-base mb-6">
-          <div>
-            <span className="text-zinc-500">UPI ID:</span>
-            <div className="font-semibold">royal-gadget@upiid</div>
+      <div className="royal-border bg-white rounded-3xl p-6 sm:p-8">
+        
+        {/* Main Message */}
+        <div className="text-center mb-10">
+          <div className="w-16 h-16 mx-auto mb-4 bg-green-100 rounded-full flex items-center justify-center">
+            <span className="text-3xl">✅</span>
           </div>
-
-          <div>
-            <span className="text-zinc-500">Call After Payment:</span>
-            <div className="font-semibold">+91 91728 91633</div>
-          </div>
-        </div>
-
-        {/* Instructions */}
-        <div className="bg-amber-50 text-amber-700 rounded-2xl p-4 text-sm mb-6">
-          1. Scan QR and pay <br />
-          2. Call admin for verification <br />
-          3. Wait for approval
+          <h1 className="font-display text-2xl sm:text-3xl mb-4 text-green-700">
+            Information Received
+          </h1>
+          <p className="text-lg text-zinc-700 leading-relaxed">
+            Your information has reached us.<br />
+            Our team will contact you shortly.
+          </p>
+          <p className="text-zinc-600 mt-3">
+            You can also call us on this number:
+          </p>
+          <a 
+            href="tel:+919172891633" 
+            className="inline-block mt-2 text-xl font-semibold text-rose-600 hover:underline"
+          >
+            +91 91728 91633
+          </a>
         </div>
 
         {/* Check Status Button */}
         <button
           onClick={checkPayment}
           disabled={loading}
-          className="w-full bg-gradient-to-r from-rose-600 to-rose-700 text-white py-3 rounded-2xl font-semibold disabled:opacity-50"
+          className="w-full bg-gradient-to-r from-rose-600 to-rose-700 text-white py-3.5 rounded-2xl font-semibold disabled:opacity-50 mb-8"
         >
           {loading ? "Checking..." : "Check Payment Status"}
         </button>
 
-        <p className="text-xs text-zinc-500 mt-4">
+        <p className="text-center text-xs text-zinc-500 mb-10">
           Current Status: <span className="font-semibold">{status}</span>
         </p>
+
+        
       </div>
     </section>
   );
