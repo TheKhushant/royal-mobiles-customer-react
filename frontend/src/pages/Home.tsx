@@ -5,6 +5,7 @@ import ProductCard from "@/components/ProductCard";
 import { useEffect, useState } from "react";
 import { api } from "@/lib/api";
 import { useQuery } from "@tanstack/react-query";
+// import AnimatedCar from "@/components/animatedcar";
 
 type Banner = {
   _id: string;
@@ -185,6 +186,102 @@ export default function Home() {
   });
 
   const trending = products;
+
+    function FAQAccordion() {
+    const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+    const faqs = [
+      {
+        q: "Best Toy Stores to Shop at Near Me",
+        a: "We are Nagpur's most trusted destination for premium and educational toys. Visit our store or shop online for curated collections."
+      },
+      {
+        q: "How to Find Quality Toys for Different Age Groups",
+        a: "Look for age-appropriate labels, durable materials, and developmental benefits. We categorize our toys clearly by age range."
+      },
+      {
+        q: "Why Does My Child Line Up Toys Instead of Playing With Them?",
+        a: "This is common in neurodivergent children (especially autistic kids) and often indicates a preference for organizing and pattern recognition rather than imaginative play."
+      },
+      {
+        q: "Best Toys for Kids Who Like to Organize and Sort",
+        a: "Sorting toys, stacking cups, magnetic tiles, puzzle boxes, and color-coded organization sets work wonderfully."
+      },
+      {
+        q: "How to Choose Toys That Keep Kids Engaged for Hours",
+        a: "Focus on open-ended toys like building blocks, art supplies, sensory kits, and toys that match your child's specific interests."
+      },
+      {
+        q: "What Toys Do Autistic Children Actually Love?",
+        a: "Many prefer sensory toys, fidget items, building sets, toys with strong visual patterns, and items that support repetitive play."
+      },
+      {
+        q: "Best Sensory Toys for Kids Who Like Repetitive Play",
+        a: "Fidget toys, slime, kinetic sand, weighted plushies, and spinning or light-up toys are very popular."
+      },
+      {
+        q: "How to Organize Your Child's Toy Collection",
+        a: "Use clear bins, label everything, implement toy rotation, and create accessible low shelves for independent play."
+      },
+      {
+        q: "How to Choose Safe Toys for Your Kids",
+        a: "Always check for age ratings, non-toxic materials, sturdy construction, and certifications like CE or ASTM."
+      },
+      {
+        q: "Are Expensive Toys Really Worth It?",
+        a: "Often yes — quality toys last longer, offer better play value, and support development more effectively."
+      },
+      {
+        q: "How Many Toys Should Your Child Actually Have?",
+        a: "Less is often more. Many experts recommend 15–30 regularly accessible toys with rotation to maintain interest."
+      },
+    ];
+
+    const toggleFAQ = (index: number) => {
+      setOpenIndex(openIndex === index ? null : index);
+    };
+
+    return (
+      <div className="space-y-3">
+        {faqs.map((faq, index) => (
+          <div
+            key={index}
+            className="border border-zinc-200 rounded-2xl overflow-hidden bg-white"
+          >
+            <button
+              onClick={() => toggleFAQ(index)}
+              className="w-full px-6 py-5 text-left flex items-center justify-between hover:bg-zinc-50 transition-colors group"
+            >
+              <span className="font-medium text-left pr-4">{faq.q}</span>
+              <motion.div
+                animate={{ rotate: openIndex === index ? 180 : 0 }}
+                transition={{ duration: 0.3 }}
+                className="text-rose-500 group-hover:text-rose-600 flex-shrink-0"
+              >
+                <ArrowRight size={20} />
+              </motion.div>
+            </button>
+
+            <AnimatePresence>
+              {openIndex === index && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="overflow-hidden"
+                >
+                  <div className="px-6 pb-6 text-zinc-600 leading-relaxed border-t border-zinc-100">
+                    {faq.a}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        ))}
+      </div>
+    );
+  }
 
   return (
     <>
@@ -468,6 +565,24 @@ export default function Home() {
           </motion.div>
         </div>
       </section>
+            {/* FAQ SECTION - COMMON ASKED QUESTIONS */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-20 bg-white">
+        <div className="text-center mb-10">
+          <div className="text-xs uppercase tracking-widest text-rose-600">Got Questions?</div>
+          <h2 className="font-display text-3xl sm:text-4xl mt-2">Frequently Asked Questions</h2>
+          <p className="text-zinc-600 mt-3 max-w-md mx-auto">
+            Find quick answers to the most common questions about toys, play, and child development
+          </p>
+        </div>
+
+        <div className="max-w-3xl mx-auto">
+          <FAQAccordion />
+        </div>
+      </section>
+
+       {/* animated car code      */}
+       {/* <AnimatedCar/> */}
+      
     </>
   );
 }

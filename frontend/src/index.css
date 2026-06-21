@@ -121,3 +121,215 @@
   animation: shine 4s infinite linear;
   pointer-events: none;
 }
+
+.car-section {
+  position: relative;
+  overflow: hidden;
+  height: 220px;
+  background: linear-gradient(
+    to bottom,
+    #fef3c7,
+    #fde68a,
+    #ffffff
+  );
+}
+
+.road {
+  position: absolute;
+  bottom: 35px;
+  width: 100%;
+  height: 6px;
+  background: repeating-linear-gradient(
+    to right,
+    #444 0px,
+    #444 40px,
+    transparent 40px,
+    transparent 70px
+  );
+  animation: roadMove 0.5s linear infinite;
+}
+
+.sports-car {
+  position: absolute;
+  bottom: 45px;
+  width: 220px;
+  height: 90px;
+  animation:
+    carDrive 10s linear infinite,
+    carBounce 0.5s ease-in-out infinite alternate;
+}
+
+/* Main Body */
+.car-main {
+  position: absolute;
+  bottom: 20px;
+  width: 220px;
+  height: 45px;
+  background: linear-gradient(
+    135deg,
+    #dc2626,
+    #991b1b
+  );
+  border-radius: 20px 35px 10px 10px;
+  box-shadow:
+    inset 0 -8px 10px rgba(0,0,0,0.3),
+    0 8px 20px rgba(0,0,0,0.25);
+}
+
+/* Roof */
+.car-top {
+  position: absolute;
+  bottom: 50px;
+  left: 55px;
+  width: 95px;
+  height: 35px;
+  background: linear-gradient(
+    135deg,
+    #ef4444,
+    #7f1d1d
+  );
+  border-radius: 25px 25px 5px 5px;
+}
+
+/* Windows */
+.window {
+  position: absolute;
+  background: #0f172a;
+  top: 25px;
+  border-radius: 6px;
+}
+
+.window.front {
+  left: 120px;
+  width: 35px;
+  height: 20px;
+}
+
+.window.rear {
+  left: 75px;
+  width: 35px;
+  height: 20px;
+}
+
+/* Wheels */
+.wheel {
+  position: absolute;
+  bottom: 0;
+  width: 48px;
+  height: 48px;
+  background: #111827;
+  border-radius: 50%;
+  border: 5px solid #d1d5db;
+  animation: spin 0.4s linear infinite;
+}
+
+.wheel-front {
+  right: 20px;
+}
+
+.wheel-back {
+  left: 20px;
+}
+
+.rim {
+  position: absolute;
+  inset: 8px;
+  border: 3px solid #9ca3af;
+  border-radius: 50%;
+}
+
+/* Headlight Beam */
+.light-beam {
+  position: absolute;
+  right: -140px;
+  top: 35px;
+  width: 140px;
+  height: 25px;
+  background: linear-gradient(
+    to right,
+    rgba(255,255,180,0.9),
+    transparent
+  );
+  filter: blur(5px);
+}
+
+/* Smoke */
+.smoke {
+  position: absolute;
+  left: -10px;
+  bottom: 25px;
+  width: 20px;
+  height: 20px;
+  background: rgba(180,180,180,0.4);
+  border-radius: 50%;
+}
+
+.smoke1 {
+  animation: smoke 2s infinite;
+}
+
+.smoke2 {
+  animation: smoke 2s 0.5s infinite;
+}
+
+.smoke3 {
+  animation: smoke 2s 1s infinite;
+}
+
+.car-text {
+  position: absolute;
+  bottom: 10px;
+  width: 100%;
+  text-align: center;
+  color: #666;
+  font-size: 14px;
+}
+
+/* Animations */
+
+@keyframes carDrive {
+  from {
+    transform: translateX(120vw);
+  }
+  to {
+    transform: translateX(-300px);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes carBounce {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes smoke {
+  0% {
+    opacity: 0.7;
+    transform: translate(0,0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50px,-40px) scale(2);
+  }
+}
+
+@keyframes roadMove {
+  from {
+    background-position-x: 0;
+  }
+  to {
+    background-position-x: -70px;
+  }
+}
