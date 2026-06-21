@@ -2,7 +2,6 @@ import axios from "axios";
 
 export const api = axios.create({
   baseURL: "https://royal-gadgets-accessories-1.onrender.com/api",   // Backend URL
-  // baseURL: "http://localhost:5000/api",   // local URL
   timeout: 10000,
 });
 
@@ -14,3 +13,5 @@ api.interceptors.request.use((config) => {
   }
   return config;
 });
+
+  // baseURL: "http://localhost:5000/api",   // local URL
